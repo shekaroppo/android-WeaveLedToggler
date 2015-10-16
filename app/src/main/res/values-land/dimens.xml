@@ -1,0 +1,4 @@
+<resources>
+    <!-- Thinner toolbar for landscape. -->
+    <dimen name="toolbar_height">64dp</dimen>
+</resources>

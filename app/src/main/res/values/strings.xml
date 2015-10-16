@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">LED Toggler</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Device Name</string>
+    <string name="gcd_sync_service_title">GCD sync service</string>
+
+
+    <!-- Strings related to Settings -->
+
+    <!-- Device name preference -->
+    <string name="pref_device_name_title">Device Name</string>
+    <string name="pref_device_name_default">
+        Brillo Starter Board (Qualcomm)</string>
+    <string name="pref_device_name_key">device_name</string>
+
+    <!-- User TOS accepted -->
+    <string name="pref_tos_key">tos</string>
+
+    <string name="tos_confirmation">
+         <![CDATA[
+        By continuing, you agree to Google\'s
+        <a href="http://www.google.com/intl/en/policies/terms/">Terms of Service</a> and
+        <a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>.]]></string>
+    <string name="tos_accept">Accept &amp; Continue</string>
+    <string name="tos_cancel">Cancel</string>
+
+    <string name="ok">\"OK\"</string>
+    <string name="menu_oss_licensing">Open Source Licenses</string>
+    <string name="menu_device_name">Device Name</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="title_text">LED Toggler</string>
+
+</resources>

@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/action_refresh"
+        android:title="@string/menu_refresh"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_devicename"
+        android:title="@string/menu_device_name"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_licenses"
+        android:title="@string/menu_oss_licensing"
+        app:showAsAction="never" />
+</menu>

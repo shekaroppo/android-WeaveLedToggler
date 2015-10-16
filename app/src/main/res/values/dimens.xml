@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="vertical_padding">64dp</dimen>
+
+    <dimen name="item_height">72dp</dimen>
+    <dimen name="item_horizontal_padding">16dp</dimen>
+
+    <dimen name="toolbar_height">128dp</dimen>
+
+    <dimen name="items_margin">16dp</dimen>
+</resources>
