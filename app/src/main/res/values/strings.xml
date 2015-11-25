@@ -1,18 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2014 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 <resources>
     <string name="app_name">LED Toggler</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Device Name</string>
-    <string name="gcd_sync_service_title">GCD sync service</string>
-
-
-    <!-- Strings related to Settings -->
-
-    <!-- Device name preference -->
-    <string name="pref_device_name_title">Device Name</string>
-    <string name="pref_device_name_default">
-        Brillo Starter Board (Qualcomm)</string>
-    <string name="pref_device_name_key">device_name</string>
+    <string name="gcd_sync_service_title">Weave LEDToggler sample sync service</string>
 
     <!-- User TOS accepted -->
     <string name="pref_tos_key">tos</string>
@@ -24,11 +28,20 @@
         <a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>.]]></string>
     <string name="tos_accept">Accept &amp; Continue</string>
     <string name="tos_cancel">Cancel</string>
+    <string name="ok">OK</string>
 
-    <string name="ok">\"OK\"</string>
     <string name="menu_oss_licensing">Open Source Licenses</string>
-    <string name="menu_device_name">Device Name</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_more_devices">Authorize more devices</string>
     <string name="title_text">LED Toggler</string>
+    <string name="led_text">L E D  %1$d</string>
+    <string name="error_invalid_cloud_project_number">Invalid CLOUD_PROJECT_NUMBER. Please, update it in MainActivity.</string>
+    <string name="error_request_access">Could not request access for devices. See log for more details</string>
+    <string name="error_querying_state">Could not query device state. See log for more details</string>
+    <string name="error_unexpected_states">Device connected, but doesn\'t have expected LEDFlasher states.
+        See log for more details</string>
+    <string name="error_setting_state">Could not set LED. See log for more details</string>
+    <string name="unknown_device_type">(unknown)</string>
+    <string name="image_description_device_icon">Device icon</string>
 
 </resources>

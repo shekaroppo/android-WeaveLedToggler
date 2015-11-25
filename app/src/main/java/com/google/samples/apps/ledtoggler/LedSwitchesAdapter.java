@@ -22,24 +22,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
-
 import java.util.ArrayList;
 
-
+/**
+ * Adapter for the list of switches representing device LEDs. For each {@link Led} added to this
+ * adapter, a corresponding {@link Switch} will be created that, when clicked, will trigger a
+ * callback on the given {@link OnLightToggledListener}.
+ */
 public class LedSwitchesAdapter extends RecyclerView.Adapter<LedSwitchesAdapter.ViewHolder> {
-    private OnLightToggledListener lightToggledListener;
-    private ArrayList<Led> mDataSet;
+    private static final String TAG = LedSwitchesAdapter.class.getSimpleName();
 
-    private static final String TAG = "LedSwitchesAdapter";
+    private final OnLightToggledListener lightToggledListener;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    private final ArrayList<Led> mDataSet;
+    private String mLedLabel;
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        //
-        public Switch toggler;
-        public View parentView;
+        public final Switch toggler;
+        public final View parentView;
 
         public ViewHolder(final View parentView, final Switch toggler) {
             super(parentView);
@@ -71,41 +72,45 @@ public class LedSwitchesAdapter extends RecyclerView.Adapter<LedSwitchesAdapter.
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public LedSwitchesAdapter(OnLightToggledListener lightToggledListener, ArrayList<Led> myDataset) {
+    public LedSwitchesAdapter(OnLightToggledListener lightToggledListener) {
         this.lightToggledListener = lightToggledListener;
-        mDataSet = myDataset;
+        mDataSet = new ArrayList<>();
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.listitem_led, parent, false);
         return new ViewHolder(v,
                 (Switch) v.findViewById(R.id.toggler));
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
+        if (mLedLabel == null) {
+            // The LED label is the same for every view on this adapter, so we cache it for
+            // performance reasons.
+            mLedLabel = holder.parentView.getResources().getString(R.string.led_text);
+        }
         int normalizedPosition = position + 1;
-        // holder.toggler.setContentDescription("L E D " + normalizedPosition);
-        holder.toggler.setText("L E D  " + normalizedPosition);
+        holder.toggler.setText(String.format(mLedLabel, normalizedPosition));
 
-        // Nobody pronounces LED as "lead".
         holder.toggler.setChecked(mDataSet.get(position).isLightOn());
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataSet.size();
     }
 
+    public void add(Led led) {
+        mDataSet.add(led);
+        notifyItemInserted(mDataSet.size() - 1);
+    }
 
+    public void clear() {
+        mDataSet.clear();
+        notifyDataSetChanged();
+    }
 }

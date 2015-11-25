@@ -19,6 +19,7 @@ package com.google.samples.apps.ledtoggler;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.webkit.WebView;
@@ -28,9 +29,7 @@ import android.webkit.WebView;
  */
 public class LicenseDialog extends DialogFragment {
 
-    public LicenseDialog() {
-    }
-
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         WebView webView = new WebView(getActivity());

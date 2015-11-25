@@ -13,24 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.samples.apps.ledtoggler;
 
-public class Led {
+import com.google.android.apps.weave.apis.data.WeaveDevice;
 
-    private boolean mLightOn;
-
-    public Led(boolean lightOn) {
-        mLightOn = lightOn;
-    }
-
-    public boolean isLightOn() {
-        return mLightOn;
-    }
-
-    public boolean toggleLight() {
-        mLightOn = !mLightOn;
-        return mLightOn;
-    }
-
+public interface WeaveDeviceProvider {
+    WeaveDevice getDevice();
 }
