@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity
     private static final String CLOUD_PROJECT_NUMBER = "REPLACE_WITH_YOUR_PROJECT_NUMBER";
 
     /**
-     * Type of the devices that this app will request access for. Common types are "vendor"
-     * and "toy".
+     * Type of the devices that this app will request access for. Common types are "vendor",
+     * "light" or "printer".
      * {@see <a href="https://developers.google.com/weave/v1/dev-guides/device-behavior/schema-library#uidevicekind">Weave docs</a>}
      */
     private static final String DEVICE_TYPE = "vendor";
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestDeviceAccess();
+                requestDeviceAccess(false);
             }
         });
 
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
                 new LicenseDialog().show(getSupportFragmentManager(), "Show licenses");
                 return true;
             case R.id.action_authorize_more_devices:
-                requestDeviceAccess();
+                requestDeviceAccess(false);
                 return true;
 
         }
@@ -193,22 +193,22 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, R.string.error_invalid_cloud_project_number, Toast.LENGTH_LONG)
                     .show();
             finish();
+            return;
         }
         if (!UserConsentDialogFragment.isTosAccepted(this)) {
             finish();
+            return;
         }
         mApiClient = new WeaveApiClient(this);
 
-        boolean firstRun = getPreferences(Context.MODE_PRIVATE).getBoolean("first_run", true);
-        if (firstRun) {
-            getPreferences(Context.MODE_PRIVATE).edit().putBoolean("first_run", false).apply();
-            requestDeviceAccess();
+        if (isFirstRun()) {
+            requestDeviceAccess(false);
         } else {
             startDiscovery();
         }
     }
 
-    private void requestDeviceAccess() {
+    private void requestDeviceAccess(boolean finishIfResolutionRequired) {
         if (mApiClient == null) {
             return;
         }
@@ -224,6 +224,16 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "Successfully created RequestAccessIntent: " + accessResponse.getSuccess());
             startActivityForResult(accessResponse.getSuccess(), REQUEST_CODE_DEVICE_ACCESS);
         } else if (accessResponse.getError().getErrorCode() == ResultCode.RESOLUTION_REQUIRED) {
+            if (finishIfResolutionRequired) {
+                Log.w(TAG, "Could not create RequestAccessIntent. Resolution intent provided, " +
+                        "but finishing activity instead, since finishIfResolutionRequired " +
+                        "is true. Most likely resolution has been tried and failed. " +
+                        accessResponse.getError());
+                Toast.makeText(this, R.string.error_resolution_intent_cannot_run, Toast.LENGTH_LONG)
+                        .show();
+                finish();
+                return;
+            }
             Log.w(TAG, "Could not create RequestAccessIntent, trying resolution intent: " +
                     accessResponse.getError());
             startActivityForResult(accessResponse.getError().getResolutionIntent(),
@@ -241,13 +251,31 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.w(TAG, "Result onActivityResult: " + data + "  resultCode=" + resultCode +
                 " requestCode=" + requestCode);
-        if (requestCode == REQUEST_CODE_DEVICE_ACCESS ||
-                requestCode == REQUEST_CODE_RESOLUTION_REQUIRED) {
-            startDiscovery();
+        switch (requestCode) {
+            case REQUEST_CODE_RESOLUTION_REQUIRED:
+                // Resolution intent has returned, now we need to go through the flow again,
+                // so if the resolution was addressed (eg, the Weave management app has been
+                // installed), the device access screen will show up.
+                // If the resolution was not addressed, for example if the user cancelled
+                // the installation of the Weave management app, we take him again
+                // to the flow, because otherwise we cannot proceed.
+                requestDeviceAccess(true);
+                break;
+            case REQUEST_CODE_DEVICE_ACCESS:
+                unsetFirstRun();
+                startDiscovery();
+                break;
         }
     }
 
 
+    private boolean isFirstRun() {
+        return getPreferences(Context.MODE_PRIVATE).getBoolean("first_run", true);
+    }
+
+    private void unsetFirstRun() {
+        getPreferences(Context.MODE_PRIVATE).edit().putBoolean("first_run", false).apply();
+    }
 
     /** Begins a scan for weave-accessible devices.  Searches for both cloud devices associated with
      * the user's account, and provisioned weave devices sitting on the same network.

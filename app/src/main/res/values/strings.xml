@@ -36,6 +36,7 @@ limitations under the License.
     <string name="title_text">LED Toggler</string>
     <string name="led_text">L E D  %1$d</string>
     <string name="error_invalid_cloud_project_number">Invalid CLOUD_PROJECT_NUMBER. Please, update it in MainActivity.</string>
+    <string name="error_resolution_intent_cannot_run">Please, check if the Weave Management App is installed. See log for details.</string>
     <string name="error_request_access">Could not request access for devices. See log for more details</string>
     <string name="error_querying_state">Could not query device state. See log for more details</string>
     <string name="error_unexpected_states">Device connected, but doesn\'t have expected LEDFlasher states.
