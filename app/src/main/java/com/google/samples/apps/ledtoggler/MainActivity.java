@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity
     private static final String CLOUD_PROJECT_NUMBER = "REPLACE_WITH_YOUR_PROJECT_NUMBER";
 
     /**
-     * Type of the devices that this app will request access for. Common types are "vendor",
-     * "light" or "printer".
+     * Type of the devices that this app will request access for. Common types are
+     * "developmentBoard", "vendor", "light" or "printer".
      * {@see <a href="https://developers.google.com/weave/v1/dev-guides/device-behavior/schema-library#uidevicekind">Weave docs</a>}
      */
-    private static final String DEVICE_TYPE = "vendor";
+    private static final String DEVICE_TYPE = "developmentBoard";
     // END OF REQUIRED CONFIGURATION.
 
     private WeaveApiClient mApiClient;
